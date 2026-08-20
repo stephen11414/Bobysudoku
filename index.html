@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>数独</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>数独</h1>
+
+    <div class="toolbar">
+      <label for="difficulty">难度：</label>
+      <select id="difficulty">
+        <option value="easy">简单</option>
+        <option value="medium">中等</option>
+        <option value="hard">困难</option>
+      </select>
+
+      <button id="newGameBtn">新游戏</button>
+      <button id="checkBtn">检查答案</button>
+      <button id="resetBtn">重新开始</button>
+    </div>
+
+    <p id="message" class="message">请选择难度后开始游戏。</p>
+
+<div id="board" class="board"></div>
+
+<div class="number-panel">
+  <p>先点击一个空格，再选择数字：</p>
+
+  <div id="numberPad" class="number-pad">
+    <button class="number-btn" data-number="1">1</button>
+    <button class="number-btn" data-number="2">2</button>
+    <button class="number-btn" data-number="3">3</button>
+    <button class="number-btn" data-number="4">4</button>
+    <button class="number-btn" data-number="5">5</button>
+    <button class="number-btn" data-number="6">6</button>
+    <button class="number-btn" data-number="7">7</button>
+    <button class="number-btn" data-number="8">8</button>
+    <button class="number-btn" data-number="9">9</button>
+    <button id="eraseBtn" class="erase-btn">擦除</button>
+  </div>
+</div>
+
+
+    <section class="rules">
+      <h2>规则</h2>
+      <p>在每一行、每一列和每个 3×3 宫格中，数字 1～9 不能重复。</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<p class="version-text">数独小游戏 · v0.1 Beta</p>

@@ -1,0 +1,400 @@
+/* =========================
+   基础页面样式
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 30px 16px 50px;
+  background: #f4f7fb;
+  color: #1e293b;
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  text-align: center;
+}
+
+/* 页面主标题 */
+h1 {
+  margin: 0 0 24px;
+  color: #1e293b;
+  font-size: clamp(32px, 7vw, 50px);
+  font-weight: 800;
+}
+
+/* =========================
+   顶部控制按钮
+========================= */
+
+/* 如果你的 HTML 中没有 .controls，也不影响数独棋盘 */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.controls label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 难度选择框 */
+select {
+  height: 46px;
+  padding: 0 14px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+}
+
+select:focus {
+  border-color: #2563eb;
+}
+
+/* 所有普通按钮的基础样式 */
+button {
+  font-family: inherit;
+}
+
+/* 顶部的按钮 */
+.controls button,
+#newGameBtn,
+#checkBtn,
+#resetBtn {
+  min-height: 46px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.controls button:hover,
+#newGameBtn:hover,
+#checkBtn:hover,
+#resetBtn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* 检查答案按钮使用绿色 */
+#checkBtn {
+  background: #16a34a;
+}
+
+#checkBtn:hover {
+  background: #15803d;
+}
+
+/* 重新开始按钮使用灰色 */
+#resetBtn {
+  background: #64748b;
+}
+
+#resetBtn:hover {
+  background: #475569;
+}
+
+/* 提示文字 */
+.message {
+  min-height: 26px;
+  margin: 12px 0 20px;
+  color: #64748b;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* =========================
+   数独棋盘
+========================= */
+
+.board {
+  width: min(92vw, 540px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+
+  /* 整个棋盘的大外框 */
+  border: 3px solid #1e293b;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1e293b;
+}
+
+/* 每一个数独格子 */
+.cell {
+  appearance: none;
+  -webkit-appearance: none;
+
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: 0;
+
+  /* 默认细线 */
+  border: none;
+  border-right: 1px solid #94a3b8;
+  border-bottom: 1px solid #94a3b8;
+  border-radius: 0;
+
+  background: #ffffff;
+  color: #2563eb;
+  font-family: inherit;
+  font-size: clamp(20px, 5vw, 33px);
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* 每一行第 9 个格子，右侧不需要细线 */
+.cell:nth-child(9n) {
+  border-right: none;
+}
+
+/* 最后一行不需要底部细线 */
+.cell:nth-child(n + 73) {
+  border-bottom: none;
+}
+
+/* 每个 3×3 宫格右侧的粗线 */
+.cell:nth-child(3n):not(:nth-child(9n)) {
+  border-right: 3px solid #1e293b;
+}
+
+/* 第 3 行和第 6 行下方的粗线 */
+.cell:nth-child(n + 19):nth-child(-n + 27),
+.cell:nth-child(n + 46):nth-child(-n + 54) {
+  border-bottom: 3px solid #1e293b;
+}
+
+/* 题目原本就有的数字：深色、浅灰背景、不可点击 */
+.cell.fixed {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 800;
+  cursor: default;
+  opacity: 1;
+}
+
+/* 玩家可填写空格，鼠标移上去时的效果 */
+.cell.editable:hover {
+  background: #eff6ff;
+}
+
+.cell.selected {
+  background-color: #4d8dff;
+  color: #ffffff;
+}
+
+.cell.related {
+  background-color: #e4f0ff;
+}
+
+.cell.same-number {
+  background-color: #bcd8ff;
+  color: #174ea6;
+  font-weight: 700;
+}
+
+.cell.conflict {
+  color: #e53935;
+}
+
+.cell.selected.same-number {
+  background-color: #4d8dff;
+  color: #ffffff;
+}
+
+
+/* 填写出现重复，违反数独规则时 */
+.cell.conflict {
+  background: #fee2e2;
+  color: #dc2626;
+  font-weight: 800;
+}
+
+/* 点击“检查答案”后，填写正确 */
+.cell.correct {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* 点击“检查答案”后，填写错误 */
+.cell.error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* =========================
+   下方数字键盘
+========================= */
+
+.number-panel {
+  width: min(92vw, 540px);
+  margin: 22px auto 0;
+}
+
+.number-panel p {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.number-pad {
+  display: grid;
+grid-template-columns: repeat(9, 1fr);
+  gap: 10px;
+}
+
+/* 数字 1～9 按钮 */
+.number-btn,
+.erase-btn {
+  height: 60px;
+  border: none;
+  border-radius: 15px;
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.number-btn {
+  background: #2563eb;
+  font-size: 21px;
+}
+
+.number-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+
+/* 擦除按钮 */
+.erase-btn {
+  grid-column: span 2;
+  background: #64748b;
+  font-size: 16px;
+}
+
+.erase-btn:hover {
+  background: #475569;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   说明区域
+========================= */
+
+.rules {
+  width: min(92vw, 540px);
+  margin: 28px auto 0;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #475569;
+  text-align: left;
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.08);
+}
+
+.rules h2 {
+  margin: 0 0 10px;
+  color: #1e293b;
+  font-size: 19px;
+}
+
+.rules p,
+.rules li {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.rules ul {
+  margin: 8px 0 0;
+  padding-left: 22px;
+}
+
+/* =========================
+   手机屏幕适配
+========================= */
+
+@media (max-width: 500px) {
+  body {
+    padding: 22px 10px 36px;
+  }
+
+  h1 {
+    margin-bottom: 18px;
+  }
+
+  .controls {
+    gap: 8px;
+  }
+
+  .controls label {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  select {
+    height: 42px;
+    font-size: 15px;
+  }
+
+  .controls button,
+  #newGameBtn,
+  #checkBtn,
+  #resetBtn {
+    min-height: 42px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .message {
+    margin: 10px 0 16px;
+    font-size: 14px;
+  }
+
+  .number-pad {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .number-btn,
+  .erase-btn {
+    height: 44px;
+  }
+
+  .erase-btn {
+    grid-column: span 3;
+  }
+}
+
+/* 某个数字在棋盘中已满 9 个时，隐藏对应按钮 */
+.number-btn.number-complete {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.version-text {
+  margin: 16px 0 8px;
+  color: #94a3b8;
+  font-size: 12px;
+  text-align: center;
+}
